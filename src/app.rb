@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'lib/handlers/comment'
+
 require 'sinatra'
 require 'octokit'
 require 'dotenv/load' # Manages environment variables
@@ -41,20 +43,13 @@ class RunwayApp < Sinatra::Application
   post '/event_handler' do
     case request.env['HTTP_X_GITHUB_EVENT']
     when 'issue_comment'
-      handle_issue_comment_created(@payload) if @payload['action'] == 'created'
+      GitHubApp::Handler::IssueCommentCreated.handle(@octokit, @payload) if @payload['action'] == 'created'
     end
 
     200 # success status
   end
 
   helpers do
-    # When an issue is opened, add a label
-    def handle_issue_comment_created(payload)
-      repo = payload['repository']['full_name']
-      issue_number = payload['issue']['number']
-      @octokit.add_comment(repo, issue_number, 'test flight')
-    end
-
     # Saves the raw payload and converts the payload to JSON format
     def get_payload_request(request)
       # request.body is an IO or StringIO object
