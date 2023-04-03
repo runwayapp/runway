@@ -9,7 +9,7 @@ require 'jwt'         # Authenticates a GitHub App
 require 'time'        # Gets ISO 8601 representation of a Time object
 require 'logger'      # Logs debug statements
 
-set :port, 3000
+set :port, ENV.fetch('PORT', 3000)
 set :bind, '0.0.0.0'
 
 class RunwayApp < Sinatra::Application
