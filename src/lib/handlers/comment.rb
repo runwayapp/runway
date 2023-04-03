@@ -17,10 +17,13 @@ module GitHubApp
         # Exit if the comment was created by the bot itself to prevent infinite loops
         return if GitHubApp::Helpers.from_self?(payload)
 
-        octokit.add_comment(
-          payload['repository']['full_name'],
-          payload['issue']['number'],
-          'test flight'
+        repo = payload['repository']['full_name']
+        # issue_number = payload['issue']['number']
+        octokit.post(
+          "/repos/#{repo}/actions/workflows/test.yml/dispatches",
+          {
+            ref: "main"
+          }
         )
       end
     end
