@@ -26,6 +26,10 @@ class RunwayApp < Sinatra::Application
   # The GitHub App's identifier (type integer) set when registering an app.
   APP_IDENTIFIER = ENV.fetch('GITHUB_APP_IDENTIFIER', nil)
 
+  ###### Import Handlers ######
+  issue_comment_created = GitHubApp::Handler::IssueCommentCreated.new
+  #############################
+
   # Turn on Sinatra's verbose logging during development
   configure :development do
     set :logging, Logger::DEBUG
@@ -43,7 +47,7 @@ class RunwayApp < Sinatra::Application
   post '/event_handler' do
     case request.env['HTTP_X_GITHUB_EVENT']
     when 'issue_comment'
-      GitHubApp::Handler::IssueCommentCreated.handle(@octokit, @payload) if @payload['action'] == 'created'
+      issue_comment_created.handle(@octokit, @payload) if @payload['action'] == 'created'
     end
 
     200 # success status
