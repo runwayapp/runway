@@ -5,6 +5,8 @@ source "https://rubygems.org"
 gem "dotenv", "~> 2.8", ">= 2.8.1"
 gem "jwt", "~> 2.7"
 gem "octokit", "~> 6.1"
+gem "puma", "~> 6.2", ">= 6.2.1"
+gem 'puma-metrics', '~> 1.3'
 gem "sinatra", "~> 3.0", ">= 3.0.5"
 
 group :development do
