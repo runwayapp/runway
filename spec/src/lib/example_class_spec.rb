@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "spec_helper"
-require_relative "../../lib/example"
+require_relative "../../../src/lib/example"
 
 describe ExampleClass do
   context "example" do
