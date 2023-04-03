@@ -33,7 +33,7 @@ class RunwayApp < Sinatra::Application
   before '/event_handler' do
     get_payload_request(request)
     verify_webhook_signature
-    authenticate_app
+    app_client
     # Authenticate the app installation in order to run API operations
     authenticate_installation(@payload)
   end
@@ -41,7 +41,7 @@ class RunwayApp < Sinatra::Application
   post '/event_handler' do
     case request.env['HTTP_X_GITHUB_EVENT']
     when 'issues'
-      handle_issue_opened_event(@payload) if @payload['action'] === 'opened'
+      handle_issue_opened_event(@payload) if @payload['action'] == 'opened'
     end
 
     200 # success status
@@ -74,7 +74,7 @@ class RunwayApp < Sinatra::Application
     # JWT (https://jwt.io/introduction/) signed with the app's private key,
     # so GitHub can be sure that it came from the app and was not altered by
     # a malicious third party.
-    def authenticate_app
+    def app_client
       payload = {
         # The time that this JWT was issued, _i.e._ now.
         iat: Time.now.to_i,
