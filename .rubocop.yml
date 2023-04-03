@@ -20,3 +20,6 @@ Style/StringLiterals:
 
 RSpec/ContextWording:
   Enabled: false
+
+Style/Documentation:
+  Enabled: false
