@@ -29,4 +29,4 @@ jobs:
           bundler-cache: true
 
       - name: lint
-        run: bundle exec rubocop -c .rubocop.yml lib/ spec/
+        run: bundle exec rubocop -c .rubocop.yml src/ spec/
