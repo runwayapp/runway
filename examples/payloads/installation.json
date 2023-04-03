@@ -1,0 +1,81 @@
+{
+    "event": "installation",
+    "payload": {
+        "action": "created",
+        "installation": {
+            "id": 36028422,
+            "account": {
+                "login": "runwayapp",
+                "id": 129739360,
+                "node_id": "O_kgDOB7uqYA",
+                "avatar_url": "https://avatars.githubusercontent.com/u/129739360?v=4",
+                "gravatar_id": "",
+                "url": "https://api.github.com/users/runwayapp",
+                "html_url": "https://github.com/runwayapp",
+                "followers_url": "https://api.github.com/users/runwayapp/followers",
+                "following_url": "https://api.github.com/users/runwayapp/following{/other_user}",
+                "gists_url": "https://api.github.com/users/runwayapp/gists{/gist_id}",
+                "starred_url": "https://api.github.com/users/runwayapp/starred{/owner}{/repo}",
+                "subscriptions_url": "https://api.github.com/users/runwayapp/subscriptions",
+                "organizations_url": "https://api.github.com/users/runwayapp/orgs",
+                "repos_url": "https://api.github.com/users/runwayapp/repos",
+                "events_url": "https://api.github.com/users/runwayapp/events{/privacy}",
+                "received_events_url": "https://api.github.com/users/runwayapp/received_events",
+                "type": "Organization",
+                "site_admin": false
+            },
+            "repository_selection": "selected",
+            "access_tokens_url": "https://api.github.com/app/installations/36028422/access_tokens",
+            "repositories_url": "https://api.github.com/installation/repositories",
+            "html_url": "https://github.com/organizations/runwayapp/settings/installations/36028422",
+            "app_id": 313345,
+            "app_slug": "runwayapp",
+            "target_id": 129739360,
+            "target_type": "Organization",
+            "permissions": {
+                "issues": "write",
+                "metadata": "read"
+            },
+            "events": [
+                "issue_comment"
+            ],
+            "created_at": "2023-04-03T20:25:06.000+01:00",
+            "updated_at": "2023-04-03T20:25:06.000+01:00",
+            "single_file_name": null,
+            "has_multiple_single_files": false,
+            "single_file_paths": [],
+            "suspended_by": null,
+            "suspended_at": null
+        },
+        "repositories": [
+            {
+                "id": 623140695,
+                "node_id": "R_kgDOJSRfVw",
+                "name": "test-flight",
+                "full_name": "runwayapp/test-flight",
+                "private": true
+            }
+        ],
+        "requester": null,
+        "sender": {
+            "login": "GrantBirki",
+            "id": 23362539,
+            "node_id": "MDQ6VXNlcjIzMzYyNTM5",
+            "avatar_url": "https://avatars.githubusercontent.com/u/23362539?v=4",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/GrantBirki",
+            "html_url": "https://github.com/GrantBirki",
+            "followers_url": "https://api.github.com/users/GrantBirki/followers",
+            "following_url": "https://api.github.com/users/GrantBirki/following{/other_user}",
+            "gists_url": "https://api.github.com/users/GrantBirki/gists{/gist_id}",
+            "starred_url": "https://api.github.com/users/GrantBirki/starred{/owner}{/repo}",
+            "subscriptions_url": "https://api.github.com/users/GrantBirki/subscriptions",
+            "organizations_url": "https://api.github.com/users/GrantBirki/orgs",
+            "repos_url": "https://api.github.com/users/GrantBirki/repos",
+            "events_url": "https://api.github.com/users/GrantBirki/events{/privacy}",
+            "received_events_url": "https://api.github.com/users/GrantBirki/received_events",
+            "type": "User",
+            "site_admin": true
+        }
+    }
+}
