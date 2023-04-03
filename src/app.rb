@@ -40,7 +40,7 @@ class RunwayApp < Sinatra::Application
 
   post '/event_handler' do
     case request.env['HTTP_X_GITHUB_EVENT']
-    when 'issues'
+    when 'issue_comment'
       handle_issue_comment_created(@payload) if @payload['action'] == 'created'
     end
 
