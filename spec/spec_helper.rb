@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-ENV["ENV"] = "development"
+ENV["RACK_ENV"] = "development"
 
 require "simplecov"
 require "rspec"
