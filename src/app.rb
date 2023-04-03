@@ -113,7 +113,7 @@ class RunwayApp < Sinatra::Application
     # like this: "sha1=123456".
     # See https://developer.github.com/webhooks/securing/ for details.
     def verify_webhook_signature
-      their_signature_header = request.env['HTTP_X_HUB_SIGNATURE'] || 'sha1='
+      their_signature_header = request.env['HTTP_X_HUB_SIGNATURE_256'] || 'sha256='
       method, their_digest = their_signature_header.split('=')
       our_digest = OpenSSL::HMAC.hexdigest(method, WEBHOOK_SECRET, @payload_raw)
       halt 401 unless their_digest == our_digest
