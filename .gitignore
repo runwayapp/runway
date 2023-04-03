@@ -5,3 +5,4 @@ vendor/gems/
 coverage/
 vendor/gems with development/
 vendor/gems without development/
+.env
