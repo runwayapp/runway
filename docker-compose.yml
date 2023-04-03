@@ -3,11 +3,17 @@ services:
     container_name: database
     restart: unless-stopped
     image: mysql:8.0
+    cap_add:
+      - SYS_NICE
     ports:
       - 3306:3306
     environment:
-      MYSQL_ROOT_PASSWORD: runway
+      MYSQL_ROOT_PASSWORD: maverick
+      MYSQL_DATABASE: runway
+      ENGINE: InnoDB
     command: --bind-address=0.0.0.0
+    volumes:
+      - ./fixtures/docker/database:/docker-entrypoint-initdb.d
     healthcheck:
       test:
         [
@@ -17,7 +23,7 @@ services:
           "127.0.0.1",
           "-u",
           "root",
-          "--password=runway",
+          "--password=maverick",
           "-e",
           "SHOW DATABASES"
         ]
