@@ -1,4 +1,4 @@
-#! /usr/bin/env bash
+#!/bin/bash
 
 # COLORS
 OFF='\033[0m'
@@ -21,12 +21,14 @@ cleanup() {
 }
 trap cleanup EXIT
 
-# Bootstrap gem dependencies.
+# Bootstrap gem dependencies
 echo -e "💎 ${BLUE}Installing Gems...${OFF}"
 if [ "$ENV" == "production" ]; then
-  bundle install --path vendor/gems --local --without development
+  bundle config set --local path 'vendor/gems' without 'development'
+  bundle install
   bundle binstubs --all
 else
-  bundle install --path vendor/gems --local --with development
+  bundle config set --local path 'vendor/gems' with 'development'
+  bundle install
   bundle binstubs --all
 fi
