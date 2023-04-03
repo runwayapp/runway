@@ -3,7 +3,7 @@
 require 'dotenv/load' # Manages environment variables
 
 # Fetches the name of the bot from the environment variables
-BOT_SELF = ENV['GITHUB_APP_NAME']
+BOT_SELF = ENV.fetch('GITHUB_APP_NAME', nil)
 
 module GitHubApp
   module Helpers
