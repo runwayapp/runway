@@ -10,6 +10,7 @@ module GitHubApp
     # Checks if the comment was created by the bot itself
     # :param payload: The payload of the webhook
     # :return: True if the comment was created by the bot itself, False otherwise
+    # Note: payload['sender']['type'] will be set to "Bot" in this context as well
     def self.from_self?(payload)
       payload['sender']['login'] == BOT_SELF
     end
