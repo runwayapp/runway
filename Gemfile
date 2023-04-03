@@ -3,6 +3,7 @@
 source "https://rubygems.org"
 
 gem "dotenv", "~> 2.8", ">= 2.8.1"
+gem 'faraday-retry', '~> 2.1'
 gem "jwt", "~> 2.7"
 gem "octokit", "~> 6.1"
 gem "puma", "~> 6.2", ">= 6.2.1"
