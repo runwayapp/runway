@@ -1,6 +1,8 @@
+require: rubocop-rspec
+
 AllCops:
   NewCops: enable
-  SuggestExtensions: false
+  SuggestExtensions: true
   DisplayCopNames: true
   TargetRubyVersion: 3.2.1
   Exclude:

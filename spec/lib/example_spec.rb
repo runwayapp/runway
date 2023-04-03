@@ -5,7 +5,7 @@ require_relative "../../lib/example"
 
 describe ExampleClass do
   context "example" do
-    rbt = ExampleClass.new
+    rbt = described_class.new
 
     it "tests the example class with addition" do
       expect(rbt.simple_addition(1, 2)).to eq(3)
