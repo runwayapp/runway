@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-require './app'
+require './src/app'
 
-run Application
+run RunwayApp
