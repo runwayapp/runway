@@ -1,0 +1,27 @@
+services:
+  database:
+    container_name: database
+    restart: unless-stopped
+    image: mysql:8.0
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: runway
+    command: --bind-address=0.0.0.0
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysql",
+          "-h",
+          "127.0.0.1",
+          "-u",
+          "root",
+          "--password=runway",
+          "-e",
+          "SHOW DATABASES"
+        ]
+      interval: 1m
+      timeout: 5s
+      retries: 10
+      start_period: 3s
