@@ -1,0 +1,10 @@
+docs
+bin
+README.md
+.gitignore
+tmp
+.git
+coverage
+.bundle
+vendor/gems
+.github

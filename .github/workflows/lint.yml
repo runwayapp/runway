@@ -1,0 +1,32 @@
+name: lint
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  lint:
+    name: lint
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: fetch ruby version
+        id: ruby-version
+        run: |
+          version=$(cat .ruby-version)
+          echo "version=${version}" >> $GITHUB_OUTPUT
+
+      - uses: ruby/setup-ruby@ec02537da5712d66d4d50a0f33b7eb52773b5ed1 # pin@v1.144.2
+        with:
+          ruby-version: ${{ steps.ruby-version.outputs.version }}
+          bundler-cache: true
+
+      - name: lint
+        run: bundle exec rubocop -c .rubocop.yml lib/ spec/

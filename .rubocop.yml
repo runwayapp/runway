@@ -1,0 +1,14 @@
+AllCops:
+  NewCops: enable
+  SuggestExtensions: false
+  DisplayCopNames: true
+  TargetRubyVersion: 3.2.1
+  Exclude:
+    - 'bin/*'
+    - 'spec/acceptance/fixtures/**/*'
+    - 'spec/unit/fixtures/**/*'
+    - 'vendor/gems/**/*'
+    - '.github/**/*'
+
+Style/HashSyntax:
+  Enabled: false

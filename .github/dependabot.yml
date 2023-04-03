@@ -1,0 +1,16 @@
+version: 2
+updates:
+  - package-ecosystem: bundler
+    vendor: true
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: "tuesday"
+      time: "21:00"
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: "tuesday"
+      time: "21:00"
