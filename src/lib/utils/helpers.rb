@@ -21,7 +21,7 @@ module GitHubApp
 
     # Checks if the command issued is a registered command in the ATC
     # :param payload: The payload of the webhook
-    # :return: the matching command (String), False otherwise
+    # :return: The command object (Hash), False otherwise
     def self.valid_command?(payload)
       # get all commands for the repo from the ATC
       resp = HTTParty.get("#{ATC_ENDPOINT}/#{payload['repository']['full_name']}/commands")
@@ -33,7 +33,7 @@ module GitHubApp
 
       # loop through all returned commands and check if the comment body matches
       data.each do |command|
-        return command[:data][:command] if payload['comment']['body'].start_with?(command[:data][:command])
+        return command if payload['comment']['body'].start_with?(command[:data][:command])
       end
 
       # if we get here, the command is not valid
