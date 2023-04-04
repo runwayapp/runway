@@ -1,13 +1,9 @@
 # frozen_string_literal: true
 
 require 'dotenv/load' # Manages environment variables
-require "httparty"
 
 # Fetches the name of the bot from the environment variables
 BOT_SELF = ENV.fetch('GITHUB_APP_NAME', nil)
-
-# Fetches the ATC endpoint from the environment variables
-ATC_ENDPOINT = ENV.fetch('ATC_ENDPOINT', nil)
 
 module GitHubApp
   module Helpers
@@ -22,9 +18,9 @@ module GitHubApp
     # Checks if the command issued is a registered command in the ATC
     # :param payload: The payload of the webhook
     # :return: The command object (Hash), False otherwise
-    def self.valid_command?(payload)
+    def self.valid_command?(payload, atc)
       # get all commands for the repo from the ATC
-      resp = HTTParty.get("#{ATC_ENDPOINT}/#{payload['repository']['full_name']}/commands")
+      resp = atc.get("/#{payload['repository']['full_name']}/commands")
 
       raise "Error fetching commands from ATC: #{resp.code}" if resp.code != 200
 

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'lib/handlers/comment'
+require_relative 'lib/services/air_traffic_controller'
 
 require 'sinatra'
 require 'octokit'
@@ -26,8 +27,12 @@ class RunwayApp < Sinatra::Application
   # The GitHub App's identifier (type integer) set when registering an app.
   APP_IDENTIFIER = ENV.fetch('GITHUB_APP_IDENTIFIER', nil)
 
+  ##### Import AirTrafficController Client #####
+  atc = GitHubApp::Services::AirTrafficController.new
+  ##############################################
+
   ###### Import Handlers ######
-  issue_comment_created = GitHubApp::Handler::IssueCommentCreated.new
+  issue_comment_created = GitHubApp::Handler::IssueCommentCreated.new(atc:)
   #############################
 
   # Turn on Sinatra's verbose logging during development

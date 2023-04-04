@@ -5,8 +5,9 @@ require_relative "../utils/helpers"
 module GitHubApp
   module Handler
     class IssueCommentCreated
-      def initialize(logger: nil)
+      def initialize(logger: nil, atc: nil)
         @log = logger || Logger.new($stdout, level: ENV.fetch('LOG_LEVEL', 'INFO').upcase)
+        @atc = atc
       end
 
       # Dispatches a workflow run
@@ -55,7 +56,7 @@ module GitHubApp
         end
 
         # Check if the command is valid
-        command = GitHubApp::Helpers.valid_command?(payload)
+        command = GitHubApp::Helpers.valid_command?(payload, @atc)
         return if command == false
 
         # A 'command' will have one or more 'actions' to perform
