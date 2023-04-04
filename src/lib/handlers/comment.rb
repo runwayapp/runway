@@ -15,16 +15,28 @@ module GitHubApp
       # :param payload: The payload of the webhook
       def handle(octokit, payload)
         # Exit if the comment was created by the bot itself to prevent infinite loops
-        return if GitHubApp::Helpers.from_self?(payload)
+        if GitHubApp::Helpers.from_self?(payload)
+          @log.debug("ignoring comment from self - #{payload['repository']['full_name']}")
+          return
+        end
 
-        repo = payload['repository']['full_name']
-        # issue_number = payload['issue']['number']
-        octokit.post(
-          "/repos/#{repo}/actions/workflows/test.yml/dispatches",
-          {
-            ref: "main"
-          }
+        # Check if the command is valid
+        command = GitHubApp::Helpers.valid_command?(payload)
+        return if command == false
+
+        octokit.add_comment(
+          payload['repository']['full_name'],
+          payload['issue']['number'],
+          "command received: #{command} is valid"
         )
+
+        # issue_number = payload['issue']['number']
+        # octokit.post(
+        #   "/repos/#{repo}/actions/workflows/test.yml/dispatches",
+        #   {
+        #     ref: "main"
+        #   }
+        # )
       end
     end
   end
