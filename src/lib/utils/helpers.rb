@@ -16,9 +16,10 @@ module GitHubApp
     end
 
     # Checks if the command issued is a registered command in the ATC
+    # :param atc: The Air Traffic Controller service
     # :param payload: The payload of the webhook
     # :return: The command object (Hash), False otherwise
-    def self.valid_command?(payload, atc)
+    def self.valid_command?(atc, payload)
       # get all commands for the repo from the ATC
       resp = atc.get("/#{payload['repository']['full_name']}/commands")
 

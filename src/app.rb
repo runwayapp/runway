@@ -32,7 +32,7 @@ class RunwayApp < Sinatra::Application
   ##############################################
 
   ###### Import Handlers ######
-  issue_comment_created = GitHubApp::Handler::IssueCommentCreated.new(atc:)
+  issue_comment_created = GitHubApp::Handler::IssueCommentCreated.new
   #############################
 
   # Turn on Sinatra's verbose logging during development
@@ -47,12 +47,14 @@ class RunwayApp < Sinatra::Application
     app_client
     # Authenticate the app installation in order to run API operations
     authenticate_installation(@payload)
+    # refresh the atc client to ensure jwt tokens are valid
+    atc.refresh
   end
 
   post '/event_handler' do
     case request.env['HTTP_X_GITHUB_EVENT']
     when 'issue_comment'
-      issue_comment_created.handle(@octokit, @payload) if @payload['action'] == 'created'
+      issue_comment_created.handle(@octokit, atc, @payload) if @payload['action'] == 'created'
     end
 
     200 # success status

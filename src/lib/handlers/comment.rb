@@ -5,9 +5,8 @@ require_relative "../utils/helpers"
 module GitHubApp
   module Handler
     class IssueCommentCreated
-      def initialize(logger: nil, atc: nil)
+      def initialize(logger: nil)
         @log = logger || Logger.new($stdout, level: ENV.fetch('LOG_LEVEL', 'INFO').upcase)
-        @atc = atc
       end
 
       # Dispatches a workflow run
@@ -47,8 +46,9 @@ module GitHubApp
       # Handles issue_comment.created webhook
       # This method is also invoked for comments on pull requests
       # :param octokit: The authenticated Octokit client
+      # :param atc: The Air Traffic Controller service
       # :param payload: The payload of the webhook
-      def handle(octokit, payload)
+      def handle(octokit, atc, payload)
         # Exit if the comment was created by the bot itself to prevent infinite loops
         if GitHubApp::Helpers.from_self?(payload)
           @log.debug("ignoring comment from self - #{payload['repository']['full_name']}")
@@ -56,7 +56,7 @@ module GitHubApp
         end
 
         # Check if the command is valid
-        command = GitHubApp::Helpers.valid_command?(payload, @atc)
+        command = GitHubApp::Helpers.valid_command?(atc, payload)
         return if command == false
 
         # A 'command' will have one or more 'actions' to perform
