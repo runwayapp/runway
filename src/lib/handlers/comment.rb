@@ -43,6 +43,22 @@ module GitHubApp
         )
       end
 
+      # Does reaction operations on the invoking command
+      # :param octokit: The authenticated Octokit client
+      # :param payload: The payload of the webhook
+      # :param action: The action to perform (Hash) with data for the reaction
+      def reaction(octokit, payload, action)
+        case action[:mode]
+        when "add"
+          octokit.create_issue_comment_reaction(
+            payload['repository']['full_name'],
+            payload['comment']['id'],
+            action[:reaction]
+          )
+        end
+        # TODO: add support for removing reactions
+      end
+
       # Handles issue_comment.created webhook
       # This method is also invoked for comments on pull requests
       # :param octokit: The authenticated Octokit client
@@ -65,6 +81,8 @@ module GitHubApp
           case action[:type]
           when "workflow_dispatch"
             workflow_dispatch(octokit, payload, action)
+          when "reaction"
+            reaction(octokit, payload, action)
           when "comment"
             add_comment(octokit, payload, action)
           end
