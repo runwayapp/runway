@@ -26,3 +26,6 @@ Style/Documentation:
 
 Metrics/BlockLength:
   Enabled: false
+
+Style/RedundantReturn:
+  Enabled: false
