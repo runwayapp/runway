@@ -18,7 +18,7 @@ permissions:
   packages: write
 
 env:
-  AZURE_WEBAPP_NAME: runway
+  AZURE_WEBAPP_NAME: runwayapp
   DOMAIN: https://app.runwayapp.one
 
 jobs:

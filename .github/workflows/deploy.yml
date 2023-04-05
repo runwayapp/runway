@@ -4,7 +4,7 @@
 name: deploy
 
 env:
-  AZURE_WEBAPP_NAME: runway
+  AZURE_WEBAPP_NAME: runwayapp
 
 on:
   push:
