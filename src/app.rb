@@ -51,6 +51,14 @@ class RunwayApp < Sinatra::Application
     atc.refresh
   end
 
+  get "/" do
+    return "runway"
+  end
+
+  get "/ping" do
+    return "pong"
+  end
+
   post '/event_handler' do
     case request.env['HTTP_X_GITHUB_EVENT']
     when 'issue_comment'
