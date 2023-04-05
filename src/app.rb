@@ -11,6 +11,7 @@ require "openssl"     # Verifies the webhook signature
 require "jwt"         # Authenticates a GitHub App
 require "time"        # Gets ISO 8601 representation of a Time object
 require "logger"      # Logs debug statements
+require "base64"      # For decoding the private key secret
 
 set :port, ENV.fetch("PORT", 3000)
 set :bind, "0.0.0.0"
@@ -18,7 +19,7 @@ set :bind, "0.0.0.0"
 class RunwayApp < Sinatra::Application
   # Converts the newlines. Expects that the private key has been set as an
   # environment variable in PEM format.
-  PRIVATE_KEY = OpenSSL::PKey::RSA.new(ENV["GITHUB_PRIVATE_KEY"].gsub('\n', "\n"))
+  PRIVATE_KEY = OpenSSL::PKey::RSA.new(Base64.decode64(ENV["GITHUB_PRIVATE_KEY"]).gsub('\n', "\n"))
 
   # Your registered app must have a secret set. The secret is used to verify
   # that webhooks are sent by GitHub.
