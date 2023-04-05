@@ -5,13 +5,16 @@ require_relative "lib/services/air_traffic_controller"
 
 require "sinatra"
 require "octokit"
-require "dotenv/load" # Manages environment variables
+require "dotenv"
 require "json"
 require "openssl"     # Verifies the webhook signature
 require "jwt"         # Authenticates a GitHub App
 require "time"        # Gets ISO 8601 representation of a Time object
 require "logger"      # Logs debug statements
 require "base64"      # For decoding the private key secret
+
+# only load dotenv if we are in development
+Dotenv.load if ENV.fetch("ENV", "development") == "development"
 
 set :port, ENV.fetch("PORT", 3000)
 set :bind, "0.0.0.0"
