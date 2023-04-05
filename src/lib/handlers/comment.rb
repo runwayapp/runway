@@ -9,7 +9,7 @@ module GitHubApp
   module Handler
     class IssueCommentCreated
       def initialize(logger: nil)
-        @log = logger || Logger.new($stdout, level: ENV.fetch('LOG_LEVEL', 'INFO').upcase)
+        @log = logger || Logger.new($stdout, level: ENV.fetch("LOG_LEVEL", "INFO").upcase)
       end
 
       # Handles issue_comment.created webhook

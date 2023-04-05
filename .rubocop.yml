@@ -16,7 +16,8 @@ Style/HashSyntax:
   Enabled: false
 
 Style/StringLiterals:
-  Enabled: false
+  Enabled: true
+  EnforcedStyle: double_quotes
 
 RSpec/ContextWording:
   Enabled: false
@@ -31,4 +32,7 @@ Style/RedundantReturn:
   Enabled: false
 
 Metrics/MethodLength:
+  Enabled: false
+
+Metrics/AbcSize:
   Enabled: false

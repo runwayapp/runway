@@ -1,31 +1,31 @@
 # frozen_string_literal: true
 
-require_relative 'lib/handlers/comment'
-require_relative 'lib/services/air_traffic_controller'
+require_relative "lib/handlers/comment"
+require_relative "lib/services/air_traffic_controller"
 
-require 'sinatra'
-require 'octokit'
-require 'dotenv/load' # Manages environment variables
-require 'json'
-require 'openssl'     # Verifies the webhook signature
-require 'jwt'         # Authenticates a GitHub App
-require 'time'        # Gets ISO 8601 representation of a Time object
-require 'logger'      # Logs debug statements
+require "sinatra"
+require "octokit"
+require "dotenv/load" # Manages environment variables
+require "json"
+require "openssl"     # Verifies the webhook signature
+require "jwt"         # Authenticates a GitHub App
+require "time"        # Gets ISO 8601 representation of a Time object
+require "logger"      # Logs debug statements
 
-set :port, ENV.fetch('PORT', 3000)
-set :bind, '0.0.0.0'
+set :port, ENV.fetch("PORT", 3000)
+set :bind, "0.0.0.0"
 
 class RunwayApp < Sinatra::Application
   # Converts the newlines. Expects that the private key has been set as an
   # environment variable in PEM format.
-  PRIVATE_KEY = OpenSSL::PKey::RSA.new(ENV['GITHUB_PRIVATE_KEY'].gsub('\n', "\n"))
+  PRIVATE_KEY = OpenSSL::PKey::RSA.new(ENV["GITHUB_PRIVATE_KEY"].gsub('\n', "\n"))
 
   # Your registered app must have a secret set. The secret is used to verify
   # that webhooks are sent by GitHub.
-  WEBHOOK_SECRET = ENV.fetch('GITHUB_WEBHOOK_SECRET', nil)
+  WEBHOOK_SECRET = ENV.fetch("GITHUB_WEBHOOK_SECRET", nil)
 
   # The GitHub App's identifier (type integer) set when registering an app.
-  APP_IDENTIFIER = ENV.fetch('GITHUB_APP_IDENTIFIER', nil)
+  APP_IDENTIFIER = ENV.fetch("GITHUB_APP_IDENTIFIER", nil)
 
   ##### Import AirTrafficController Client #####
   atc = GitHubApp::Services::AirTrafficController.new
@@ -41,7 +41,7 @@ class RunwayApp < Sinatra::Application
   end
 
   # Executed before each request to the `/event_handler` route
-  before '/event_handler' do
+  before "/event_handler" do
     get_payload_request(request)
     verify_webhook_signature
     app_client
@@ -59,10 +59,10 @@ class RunwayApp < Sinatra::Application
     return "pong"
   end
 
-  post '/event_handler' do
-    case request.env['HTTP_X_GITHUB_EVENT']
-    when 'issue_comment'
-      issue_comment_created.handle(@octokit, atc, @payload) if @payload['action'] == 'created'
+  post "/event_handler" do
+    case request.env["HTTP_X_GITHUB_EVENT"]
+    when "issue_comment"
+      issue_comment_created.handle(@octokit, atc, @payload) if @payload["action"] == "created"
     end
 
     200 # success status
@@ -101,7 +101,7 @@ class RunwayApp < Sinatra::Application
       }
 
       # Cryptographically sign the JWT.
-      jwt = JWT.encode(payload, PRIVATE_KEY, 'RS256')
+      jwt = JWT.encode(payload, PRIVATE_KEY, "RS256")
 
       # Create the Octokit client, using the JWT as the auth token.
       @app_client ||= Octokit::Client.new(bearer_token: jwt)
@@ -110,7 +110,7 @@ class RunwayApp < Sinatra::Application
     # Instantiate an Octokit client, authenticated as an installation of a
     # GitHub App, to run API operations.
     def authenticate_installation(payload)
-      @installation_id = payload['installation']['id']
+      @installation_id = payload["installation"]["id"]
       @installation_token = @app_client.create_app_installation_access_token(@installation_id)[:token]
       @octokit = Octokit::Client.new(bearer_token: @installation_token)
     end
@@ -127,15 +127,15 @@ class RunwayApp < Sinatra::Application
     # like this: "sha1=123456".
     # See https://developer.github.com/webhooks/securing/ for details.
     def verify_webhook_signature
-      their_signature_header = request.env['HTTP_X_HUB_SIGNATURE_256'] || 'sha256='
-      method, their_digest = their_signature_header.split('=')
+      their_signature_header = request.env["HTTP_X_HUB_SIGNATURE_256"] || "sha256="
+      method, their_digest = their_signature_header.split("=")
       our_digest = OpenSSL::HMAC.hexdigest(method, WEBHOOK_SECRET, @payload_raw)
       halt 401 unless their_digest == our_digest
 
       # The X-GITHUB-EVENT header provides the name of the event.
       # The action value indicates the which action triggered the event.
       logger.debug "---- received event #{request.env['HTTP_X_GITHUB_EVENT']}"
-      logger.debug "----    action #{@payload['action']}" unless @payload['action'].nil?
+      logger.debug "----    action #{@payload['action']}" unless @payload["action"].nil?
     end
   end
 

@@ -10,8 +10,8 @@ module GitHubApp
         octokit, payload, action, _log = package.values_at(:octokit, :payload, :action, :log)
 
         octokit.add_comment(
-          payload['repository']['full_name'],
-          payload['issue']['number'],
+          payload["repository"]["full_name"],
+          payload["issue"]["number"],
           action[:text]
         )
       end

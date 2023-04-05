@@ -12,8 +12,8 @@ module GitHubApp
         case action[:mode]
         when "add"
           octokit.create_issue_comment_reaction(
-            payload['repository']['full_name'],
-            payload['comment']['id'],
+            payload["repository"]["full_name"],
+            payload["comment"]["id"],
             action[:reaction]
           )
         end

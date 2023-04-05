@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'dotenv/load' # Manages environment variables
+require "dotenv/load" # Manages environment variables
 require "httparty"
 require "jwt"
 
@@ -8,15 +8,15 @@ module GitHubApp
   module Services
     class AirTrafficController
       def initialize(logger: nil)
-        @log = logger || Logger.new($stdout, level: ENV.fetch('LOG_LEVEL', 'INFO').upcase)
-        @endpoint = ENV.fetch('ATC_ENDPOINT', nil)
+        @log = logger || Logger.new($stdout, level: ENV.fetch("LOG_LEVEL", "INFO").upcase)
+        @endpoint = ENV.fetch("ATC_ENDPOINT", nil)
         @jwt_token = nil
         @jwt_token_raw = nil
         @api_key_headers = {
-          "x-api-key": ENV.fetch('GITHUB_APP_API_KEY', nil)
+          "x-api-key": ENV.fetch("GITHUB_APP_API_KEY", nil)
         }
         @refresh_payload = {
-          "login": ENV.fetch('GITHUB_APP_NAME', nil)
+          login: ENV.fetch("GITHUB_APP_NAME", nil)
         }.to_json
       end
 
@@ -51,7 +51,7 @@ module GitHubApp
 
       def headers
         {
-          "Authorization": "Bearer #{@jwt_token_raw}"
+          Authorization: "Bearer #{@jwt_token_raw}"
         }
       end
 
