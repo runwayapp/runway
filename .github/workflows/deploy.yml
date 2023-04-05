@@ -1,0 +1,55 @@
+# https://docs.github.com/en/actions/deployment/deploying-to-your-cloud-provider/deploying-to-azure/deploying-docker-to-azure-app-service
+# Note: github.repository must be all lowercase
+
+name: deploy
+
+env:
+  AZURE_WEBAPP_NAME: runway
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - README.md
+      - .github/workflows/*
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: ghcr.io login
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: build
+        run: docker build -t ghcr.io/${{ github.repository }}:${{ github.sha }} .
+        
+      - name: push
+        run: docker push ghcr.io/${{ github.repository }}:${{ github.sha }}
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: production
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
+          images: "ghcr.io/${{ github.repository }}:${{ github.sha }}"
