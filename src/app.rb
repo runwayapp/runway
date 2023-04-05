@@ -19,7 +19,7 @@ set :bind, "0.0.0.0"
 class RunwayApp < Sinatra::Application
   # Converts the newlines. Expects that the private key has been set as an
   # environment variable in PEM format.
-  PRIVATE_KEY = OpenSSL::PKey::RSA.new(Base64.decode64(ENV["GITHUB_PRIVATE_KEY"]).gsub('\n', "\n"))
+  PRIVATE_KEY = OpenSSL::PKey::RSA.new(Base64.decode64(ENV.fetch("GITHUB_PRIVATE_KEY", nil)).gsub('\n', "\n"))
 
   # Your registered app must have a secret set. The secret is used to verify
   # that webhooks are sent by GitHub.
