@@ -13,7 +13,7 @@ module GitHubApp
 
         # if the ref is nil, we need to get the default branch
         if ref.nil?
-          default_branch = octokit.repository(payload['repository']['full_name']).default_branch
+          default_branch = octokit.repository(payload["repository"]["full_name"]).default_branch
           log.debug("ref is nil, using default branch: #{default_branch}")
         end
 

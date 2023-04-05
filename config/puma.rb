@@ -6,7 +6,7 @@
 threads 0, 16
 
 # Specifies the `port` that Puma will listen on to receive requests, default is 3000.
-port ENV.fetch('PORT', 3000)
+port ENV.fetch("PORT", 3000)
 
 # Specifies the number of `workers` to boot in clustered mode.
 # Workers are forked webserver processes. If using threads and workers together
@@ -18,4 +18,4 @@ workers 3
 preload_app!
 
 # Load metrics plugin
-plugin 'metrics'
+plugin "metrics"
