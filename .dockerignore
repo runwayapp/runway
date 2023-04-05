@@ -8,10 +8,11 @@ coverage/
 .bundle/
 vendor/gems
 .github/**
-script/
 examples/
 spec/
 .rubocop.yml
 example.env
 .env
 LICENSE
+script/release
+script/test

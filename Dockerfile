@@ -1,13 +1,30 @@
-FROM ruby:3.2.1-alpine
+FROM ruby:3.2.1-slim
 
-COPY .ruby-version .ruby-version
-
+# set the working directory
 WORKDIR /app
 
-# create nonroot user
-RUN useradd -m nonroot
+# install necessary packages
+RUN apt-get update && apt-get install -y \
+  build-essential \
+  bash
 
+# copy the project and exclude the files in .dockerignore
+COPY . .
+
+# create a nonroot user
+RUN groupadd -r nonroot && useradd -r -g nonroot nonroot
+
+# bootstrap the project
+RUN RACK_ENV=production script/bootstrap
+
+# create the log and tmp directories
+RUN mkdir -p /app/log /app/tmp/pids /app/logs
+
+# set the permissions for the app directory and the nonroot user
 RUN chown nonroot:nonroot /app
 
 # switch to the nonroot user
 USER nonroot
+
+EXPOSE 80
+CMD [ "./script/server" ]
