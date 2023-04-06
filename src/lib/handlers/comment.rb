@@ -19,13 +19,13 @@ module GitHubApp
       # :param payload: The payload of the webhook
       def handle(octokit, atc, payload)
         # Exit if the comment was created by the bot itself to prevent infinite loops
-        if GitHubApp::Helpers.from_self?(payload)
+        if GitHubApp::Utils::Helpers.from_self?(payload)
           @log.debug("ignoring comment from self - #{payload['repository']['full_name']}")
           return
         end
 
         # Check if the command is valid
-        command = GitHubApp::Helpers.valid_command?(atc, payload)
+        command = GitHubApp::Utils::Helpers.valid_command?(atc, payload)
         return if command == false
 
         # Check if the command is in an "active" state
