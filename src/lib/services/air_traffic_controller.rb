@@ -8,7 +8,7 @@ module GitHubApp
     class AirTrafficController
       def initialize(logger: nil)
         @log = logger || Logger.new($stdout, level: ENV.fetch("LOG_LEVEL", "INFO").upcase)
-        @endpoint = ENV.fetch("ATC_ENDPOINT", nil)
+        @endpoint = "#{ENV.fetch("ATC_ENDPOINT", nil)}/api/v1"
         @jwt_token = nil
         @jwt_token_raw = nil
         @api_key_headers = {
