@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative "lib/utils/environment_check"
 require_relative "lib/handlers/comment"
 require_relative "lib/services/air_traffic_controller"
 
@@ -16,8 +17,11 @@ require "base64"      # For decoding the private key secret
 # only load dotenv if we are in development
 Dotenv.load if ENV.fetch("ENV", "development") == "development"
 
-# TODO: Flush logs right away for docker
+$stdout.sync = true # don't buffer - flush immediately (docker things)
 LOG = Logger.new($stdout, level: ENV.fetch("LOG_LEVEL", "INFO").upcase)
+
+# Check the environment variables for the GitHub App
+GitHubApp::Utils::EnvironmentCheck.run(LOG)
 
 set :port, ENV.fetch("PORT", 3000)
 set :bind, "0.0.0.0"
