@@ -26,5 +26,5 @@ RUN chown nonroot:nonroot /app
 # switch to the nonroot user
 USER nonroot
 
-EXPOSE 80
+EXPOSE 8080
 CMD [ "./script/server" ]
