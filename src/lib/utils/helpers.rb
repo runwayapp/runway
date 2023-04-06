@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "dotenv/load" # Manages environment variables
-
 # Fetches the name of the bot from the environment variables
 BOT_SELF = ENV.fetch("GITHUB_APP_NAME", nil)
 

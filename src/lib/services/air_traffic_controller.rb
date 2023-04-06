@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require "dotenv/load" # Manages environment variables
 require "httparty"
 require "jwt"
 
