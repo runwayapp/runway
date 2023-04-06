@@ -16,6 +16,9 @@ require "base64"      # For decoding the private key secret
 # only load dotenv if we are in development
 Dotenv.load if ENV.fetch("ENV", "development") == "development"
 
+# TODO: Flush logs right away for docker
+LOG = Logger.new($stdout, level: ENV.fetch("LOG_LEVEL", "INFO").upcase)
+
 set :port, ENV.fetch("PORT", 3000)
 set :bind, "0.0.0.0"
 
@@ -32,11 +35,11 @@ class RunwayApp < Sinatra::Application
   APP_IDENTIFIER = ENV.fetch("GITHUB_APP_IDENTIFIER", nil)
 
   ##### Import AirTrafficController Client #####
-  atc = GitHubApp::Services::AirTrafficController.new
+  atc = GitHubApp::Services::AirTrafficController.new(logger: LOG)
   ##############################################
 
   ###### Import Handlers ######
-  issue_comment_created = GitHubApp::Handler::IssueCommentCreated.new
+  issue_comment_created = GitHubApp::Handler::IssueCommentCreated.new(logger: LOG)
   #############################
 
   # Turn on Sinatra's verbose logging during development
