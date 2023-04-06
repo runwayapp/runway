@@ -28,6 +28,16 @@ module GitHubApp
         command = GitHubApp::Helpers.valid_command?(atc, payload)
         return if command == false
 
+        # Check if the command is in an "active" state
+        is_active = GitHubApp::Helpers.active_command?(command)
+        if is_active == false
+          @log.debug(
+            "the state of command '#{command[:name]}' in '#{payload['repository']['full_name']}' " \
+            "is set to #{command[:data][:state]} - skipping"
+          )
+          return
+        end
+
         # the package to send to all actions
         package = {
           octokit:,

@@ -15,6 +15,13 @@ module GitHubApp
       payload["sender"]["login"] == BOT_SELF
     end
 
+    # Checks if the requested command is in an "active" state or not
+    # :param command: The command object (Hash)
+    # :return: true if the command is active, false otherwise
+    def self.active_command?(command)
+      return command[:data][:state] == "active"
+    end
+
     # Checks if the command issued is a registered command in the ATC
     # :param atc: The Air Traffic Controller service
     # :param payload: The payload of the webhook
@@ -23,7 +30,9 @@ module GitHubApp
       # get all commands for the repo from the ATC
       resp = atc.get("/#{payload['repository']['full_name']}/commands")
 
-      raise "Error fetching commands from ATC: #{resp.code}" if resp.code != 200
+      if resp.code != 200
+        raise "Error fetching commands from ATC for #{payload['repository']['full_name']}: #{resp.code}"
+      end
 
       # convert the response to a hash
       data = JSON.parse(resp.body, symbolize_names: true)
