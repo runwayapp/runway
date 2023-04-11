@@ -14,7 +14,7 @@ gem "sinatra", "~> 3.0", ">= 3.0.5"
 group :development do
   gem "rspec", "~> 3.12"
   gem "rubocop", "~> 1.48"
-  gem "rubocop-performance", "~> 1.16"
+  gem "rubocop-performance", "~> 1.17"
   gem "rubocop-rspec", "~> 2.18"
   gem "simplecov", "~> 0.22"
   gem "simplecov-erb", "~> 1.0"
