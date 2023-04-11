@@ -9,7 +9,7 @@ gem "jwt", "~> 2.7"
 gem "octokit", "~> 6.1"
 gem "puma", "~> 6.2", ">= 6.2.1"
 gem "puma-metrics", "~> 1.3"
-gem "sinatra", "~> 3.0", ">= 3.0.5"
+gem "sinatra", "~> 3.0"
 
 group :development do
   gem "rspec", "~> 3.12"
